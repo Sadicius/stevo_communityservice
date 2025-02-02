@@ -1,0 +1,28 @@
+{
+    "commands": {
+        "sentence" : "communityservice",
+        "getSentence" : "fetchcommunityservice"
+    },
+
+    "notify" : {
+        "sentencedTarget" : "Sentenced %s",
+        "targetAlreadySentenced" : "Player has already been sentenced!",
+        "targetDoesntExist" : "Could not find a player with that ID!",
+        "notPolice" : "You are not a police officer!",
+        "sentenced" : "You have been sent to community service for %s actions",
+        "sentBack" : "You have been sent back to community service!",
+        "finished" : "You have finished your community service, Behave!",
+        "finishedTask" : "You have completed a task %s tasks remain."
+    },
+
+    "input" : {
+        "playerIdTitle" : "Player ID",
+        "playerId" : "Id of the player you wish to sentence",
+        "actionsTitle" : "Actions",
+        "actions" : "Number of actions you wish to sentence the player for."
+    },
+
+    "textUI" : {
+        "startTask" : "[E] Start Task"
+    }
+}

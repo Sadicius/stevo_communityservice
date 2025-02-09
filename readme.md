@@ -10,7 +10,7 @@ Follow our installation guide: [Click Here](https://docs.stevoscripts.com/free-s
 ﻿
 > **Dependencies:**
 > <br>
-> **[stevo_lib 1.7.1](https://github.com/stevoscriptsteam/stevo_lib/releases/tag/1.7.4)**
+> **[stevo_lib 1.7.4](https://github.com/stevoscriptsteam/stevo_lib/releases/tag/1.7.4)**
 > <br>
 > **[ox_lib](https://github.com/overextended/ox_lib/releases/tag/v3.24.0)**
 

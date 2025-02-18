@@ -30,13 +30,18 @@ local function showSentencingMenu()
     local playerId = sentenceMenu[1]
     local sentence = sentenceMenu[2]
 
-    if playerId == localId then
-        stevo_lib.Notify(locale("notify.jailYourself"), 'warning', 3000)
-        return
-    end
+    -- if playerId == localId then
+    --     stevo_lib.Notify(locale("notify.jailYourself"), 'warning', 3000)
+    --     return
+    -- end
 
     TriggerServerEvent('stevo_communityservice:sentencePlayer', playerId, sentence)
 end 
+
+RegisterCommand("tesssst", function ()
+    TriggerServerEvent('sc:test')
+end)
+
 
 local function createTask(taskName, taskLocation, taskAnimation, taskScenario, taskProp, taskDuration)
     taskActive = true
@@ -149,6 +154,8 @@ local function assignTasks()
             else 
                 stevo_lib.Notify(locale("notify.finished"), "success", 3000)
                 isSentenced = false 
+                LocalPlayer.state:set('stevo_comserv', 0, true)
+                Wait(100)
                 TriggerServerEvent('stevo_communityservice:finishedService')
 
                 if config.teleportBack then 

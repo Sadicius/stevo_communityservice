@@ -44,11 +44,14 @@ end)
 
 RegisterNetEvent('stevo_communityservice:finishedService')
 AddEventHandler('stevo_communityservice:finishedService', function () 
-    if Player(source).stevo_comserv ~= 0 then 
+    local playerState = Player(source).state.stevo_comserv
+    
+    if playerState and playerState ~= 0 then
         if config.dropCheaters then 
             DropPlayer(source, 'Trying to exploit stevo_communityservice')
         end 
     end
+    
 
     local identifier = stevo_lib.GetIdentifier(source)
     local existingSentence = MySQL.single.await('SELECT actions FROM `stevo_communityservice` WHERE identifier = @identifier', {
@@ -91,8 +94,3 @@ AddEventHandler('onResourceStart', function(resource)
         lib.print.info('[Stevo Scripts] Deployed database table for stevo_communityservice')
     end
 end)
-
-
-
-
- 

@@ -1,11 +1,13 @@
 {
     "commands": {
         "sentence" : "communityservice",
+        "removesentence": "removecs",
         "getSentence" : "fetchcommunityservice"
     },
 
     "notify" : {
         "sentencedTarget" : "Sentenced %s",
+        "removedTarget": "Removed Sentence",
         "jailYourself": "You cannot jail yourself!",
         "targetAlreadySentenced" : "Player has already been sentenced!",
         "targetDoesntExist" : "Could not find a player with that ID!",
@@ -19,6 +21,7 @@
     "input" : {
         "playerIdTitle" : "Player ID",
         "playerId" : "Id of the player you wish to sentence",
+        "removeplayerId": "Id of the player's sentence you want to remove",
         "actionsTitle" : "Actions",
         "actions" : "Number of actions you wish to sentence the player for."
     },

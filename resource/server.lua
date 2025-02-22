@@ -6,7 +6,6 @@ local insertSQL = [[CREATE TABLE IF NOT EXISTS `stevo_communityservice` (`id` IN
 local selectSQL = 'SELECT 1 FROM stevo_communityservice'
 lib.locale()
 
-
 RegisterNetEvent('stevo_communityservice:sentencePlayer')
 AddEventHandler('stevo_communityservice:sentencePlayer', function (playerid, sentence) 
     local src = source
@@ -42,10 +41,35 @@ AddEventHandler('stevo_communityservice:sentencePlayer', function (playerid, sen
     end
 end)
 
+RegisterNetEvent('stevo_communityservice:removeSentence')
+AddEventHandler('stevo_communityservice:removeSentence', function (playerid) 
+    local src = source
+
+    if not DoesPlayerExist(playerid) then 
+        TriggerClientEvent('stevo_communityservice:notifyPlayer', src, locale("notify.targetDoesntExist"), 'warning', 3000)
+        return 
+    end 
+
+    local identifier = stevo_lib.GetIdentifier(playerid)
+    local existingSentence = MySQL.single.await('SELECT actions FROM `stevo_communityservice` WHERE identifier = @identifier', {
+        ['@identifier'] = identifier
+    })
+
+    if not existingSentence then 
+        TriggerClientEvent('stevo_communityservice:notifyPlayer', src, locale("notify.targetDoesntExist"), 'warning', 3000)
+        return 
+    end
+
+    MySQL.query('DELETE FROM `stevo_communityservice` WHERE identifier = ?', { identifier })
+    Player(playerid).state.stevo_comserv = 0 
+    TriggerClientEvent('stevo_communityservice:clearSentence', playerid, config.returnLocation)
+    TriggerClientEvent('stevo_communityservice:notifyPlayer', src, locale("notify.removedTarget"), 'success', 3000)
+end)
+
 RegisterNetEvent('stevo_communityservice:finishedService')
 AddEventHandler('stevo_communityservice:finishedService', function () 
     local playerState = Player(source).state.stevo_comserv
-    
+
     if playerState and playerState ~= 0 then
         if config.dropCheaters then 
             DropPlayer(source, 'Trying to exploit stevo_communityservice')
@@ -62,7 +86,6 @@ AddEventHandler('stevo_communityservice:finishedService', function ()
         return 
     end
 
-    MySQL.query('DELETE FROM `stevo_communityservice` WHERE identifier = ?', { identifier })
 end)
 
 

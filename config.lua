@@ -1,6 +1,6 @@
 return {
 
-    dropCheaters = false,
+    dropCheaters = true,
     policeJob = 'police',
     coords = vector3(2208.68, 5591.96, 53.85),
 

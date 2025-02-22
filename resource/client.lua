@@ -38,10 +38,20 @@ local function showSentencingMenu()
     TriggerServerEvent('stevo_communityservice:sentencePlayer', playerId, sentence)
 end 
 
-RegisterCommand("tesssst", function ()
-    TriggerServerEvent('sc:test')
-end)
+local function showRemovalMenu()
+    local removeMenu = lib.inputDialog("Remove Sentence", {
+        { type = 'number', label = locale('input.playerIdTitle'), description = locale('input.removeplayerId'), required = true, min = 1, max = 5},
+    })
 
+    if not removeMenu then 
+        return
+    end 
+    
+    local localId = GetPlayerServerId(PlayerId())
+    local playerId = removeMenu[1]
+
+    TriggerServerEvent('stevo_communityservice:removeSentence', playerId)
+end
 
 local function createTask(taskName, taskLocation, taskAnimation, taskScenario, taskProp, taskDuration)
     taskActive = true
@@ -277,6 +287,17 @@ RegisterCommand(locale('commands.sentence'), function(source, args)
     showSentencingMenu()
 end)
 
+RegisterCommand(locale('commands.removesentence'), function(source, args)
+    local job = stevo_lib.GetPlayerGroups()
+
+    if job ~= config.policeJob then 
+        stevo_lib.Notify(locale("notify.notPolice"), 'error', 3000) 
+        return 
+    end
+
+    showRemovalMenu()
+end)
+
 RegisterNetEvent('stevo_communityservice:sentencePlayer')
 AddEventHandler('stevo_communityservice:sentencePlayer', function(sentence)
     if isSentenced then 
@@ -284,7 +305,6 @@ AddEventHandler('stevo_communityservice:sentencePlayer', function(sentence)
     end
 
     teleportToCommunityService()
-    stevo_lib.Notify('You have been sent to community service', 'warning', 3000)
     stevo_lib.Notify(locale('notify.sentenced', sentence), 'warning', 3000)
     
     isSentenced = true 
@@ -312,6 +332,20 @@ RegisterNetEvent('stevo_communityservice:notifyPlayer')
 AddEventHandler('stevo_communityservice:notifyPlayer', function(message, type)
     stevo_lib.Notify(message, type)
 end)
+
+RegisterNetEvent('stevo_communityservice:clearSentence')
+AddEventHandler('stevo_communityservice:clearSentence', function(coords)
+    local playerPed = PlayerPedId()
+    SetEntityCoords(playerPed, coords.x, coords.y, coords.z)
+    isSentenced = false
+    actions = 0
+    LocalPlayer.state:set('stevo_comserv', 0, true)
+    if taskPoint then
+        taskPoint:remove()
+        taskPoint = nil
+    end
+end)
+
 
 AddEventHandler('stevo_lib:playerLoaded', function()
     loadCommunityService()
